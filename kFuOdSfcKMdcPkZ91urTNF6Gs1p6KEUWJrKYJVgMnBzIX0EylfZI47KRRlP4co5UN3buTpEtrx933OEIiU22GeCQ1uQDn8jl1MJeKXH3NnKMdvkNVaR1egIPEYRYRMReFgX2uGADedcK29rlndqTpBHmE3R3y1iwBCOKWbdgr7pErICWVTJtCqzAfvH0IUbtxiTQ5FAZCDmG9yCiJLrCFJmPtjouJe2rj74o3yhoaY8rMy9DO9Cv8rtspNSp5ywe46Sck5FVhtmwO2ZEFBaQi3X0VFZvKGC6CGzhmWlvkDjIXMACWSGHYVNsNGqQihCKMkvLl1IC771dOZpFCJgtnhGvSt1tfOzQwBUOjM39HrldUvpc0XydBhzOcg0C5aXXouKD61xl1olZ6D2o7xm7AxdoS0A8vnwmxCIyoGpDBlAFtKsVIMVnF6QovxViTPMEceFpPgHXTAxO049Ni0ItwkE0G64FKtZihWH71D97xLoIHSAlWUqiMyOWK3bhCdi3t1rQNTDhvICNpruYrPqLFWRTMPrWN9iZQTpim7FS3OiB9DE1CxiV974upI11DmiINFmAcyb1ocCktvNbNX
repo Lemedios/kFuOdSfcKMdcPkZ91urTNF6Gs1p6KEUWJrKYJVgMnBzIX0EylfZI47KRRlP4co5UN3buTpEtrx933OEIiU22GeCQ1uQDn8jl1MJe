@@ -1778,22 +1778,29 @@ local v296,v297=nil,nil
 CreateToggle(v279(),'Anchor',nil,function(v298)
 	if v296 then v296:Disconnect()v296=nil end
 	if v297 then v297:Disconnect()v297=nil end
+	v297=nil
 	if not v298 then
-		if v74 and v74.Parent then v74.Velocity=Vector3.new(0,1)end
 		v295=nil
 		return
 	end
-	if v74 and v74.Parent then v295=v74.CFrame end
+	local v299a=v74
+	if v299a and v299a.Parent then v295=v299a.CFrame end
 	local function v299()
 		if v6 then return end
-		if not v295 then if v74 and v74.Parent then v295=v74.CFrame end end
+		if not v295 then
+			local v300=v74
+			if v300 and v300.Parent then v295=v300.CFrame end
+		end
 		local v300=v74
-		if v300 and v300.Parent and v295 then v300.CFrame=v295 v300.Velocity=v707()end
+		local v301=v295
+		if v300 and v300.Parent and v301 then
+			v300.CFrame=v301
+			v300.Velocity=v707()
+			v300.RotVelocity=Vector3.new()
+		end
 	end
 	v296=v4.Heartbeat:Connect(v299)
-	v297=v4.RenderStepped:Connect(v299)
 	v5[#v5+1]=v296
-	v5[#v5+1]=v297
 end)
 
 local v301,v302=CreateGroup(v105,'Other')
@@ -2730,7 +2737,7 @@ local function v334()
 				v358.CFrame=v359
 				if v344~=4 then v358.Velocity=v707()v358.RotVelocity=Vector3.new() end
 			end
-			if v356 then v356.CFrame=v359 v356.Velocity=Vector3.new()v356.RotVelocity=Vector3.new() end
+			if v356 then v356.CFrame=v359 v356.Velocity=v707()v356.RotVelocity=Vector3.new() end
 			v342=true
 		end)
 		v4:BindToRenderStep('v6',Enum.RenderPriority.Camera.Value-1,function()
@@ -2748,7 +2755,7 @@ local function v334()
 			if v6 then return end
 			local v358=v356
 			local v359=v357
-			if v358 and v359 then v358.CFrame=v359 v358.Velocity=Vector3.new()v358.RotVelocity=Vector3.new() end
+			if v358 and v359 then v358.CFrame=v359 v358.Velocity=v707()v358.RotVelocity=Vector3.new() end
 		end)
 		v5[#v5+1]=v340
 	end
