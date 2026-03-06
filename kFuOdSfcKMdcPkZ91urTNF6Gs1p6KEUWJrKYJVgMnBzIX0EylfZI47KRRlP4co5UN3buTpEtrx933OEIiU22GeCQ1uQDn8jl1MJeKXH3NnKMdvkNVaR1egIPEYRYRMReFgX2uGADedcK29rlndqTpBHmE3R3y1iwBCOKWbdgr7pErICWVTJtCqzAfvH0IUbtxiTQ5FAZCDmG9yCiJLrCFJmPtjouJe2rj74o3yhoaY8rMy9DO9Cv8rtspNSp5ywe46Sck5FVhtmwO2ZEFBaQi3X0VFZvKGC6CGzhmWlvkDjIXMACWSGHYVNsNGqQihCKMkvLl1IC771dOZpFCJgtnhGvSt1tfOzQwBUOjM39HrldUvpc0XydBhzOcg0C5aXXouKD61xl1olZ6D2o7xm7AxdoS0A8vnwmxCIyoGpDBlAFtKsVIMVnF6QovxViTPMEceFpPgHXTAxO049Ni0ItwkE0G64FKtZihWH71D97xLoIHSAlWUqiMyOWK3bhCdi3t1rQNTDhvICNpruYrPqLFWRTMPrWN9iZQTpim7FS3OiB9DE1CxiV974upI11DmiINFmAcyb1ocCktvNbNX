@@ -1380,7 +1380,7 @@ local v2671,v2672=CreateGroup(v105,'Shader')
 local v2673=0
 local function v2674()v2673=v2673+1 return v2673%2==1 and v2671 or v2672 end
 
-local v2675,v2676=nil,nil
+local v2675,v2676,v2688=nil,nil,nil
 local v2677,v2678,v2679=CreateToggle(v2674(),'Mini Shader',nil,function(v2680)
 	if v2676 then v2676:Disconnect()v2676=nil end
 	local v2681=game:service'Lighting'
@@ -1393,11 +1393,32 @@ local v2677,v2678,v2679=CreateToggle(v2674(),'Mini Shader',nil,function(v2680)
 			pcall(function()v2681.Ambient=v2675[5]end)
 			pcall(function()v2681.OutdoorAmbient=v2675[6]end)
 			pcall(function()v2681.GlobalShadows=v2675[7]end)
+			pcall(function()v2681.ClockTime=v2675[8]end)
+		end
+		local v2682={}
+		for _,v2683 in ipairs(v2681:GetChildren()) do
+			if v2683.ClassName=='SunRaysEffect' then v2682[#v2682+1]=v2683 end
+		end
+		for v2683=1,#v2682 do pcall(function()v2682[v2683]:Destroy()end) end
+		if v2688 then
+			for v2682,v2683 in ipairs(v2688) do
+				local v2684=Instance.new('SunRaysEffect',v2681)
+				pcall(function()v2684.Enabled=v2683[1]end)
+				pcall(function()v2684.Intensity=v2683[2]end)
+				pcall(function()v2684.Spread=v2683[3]end)
+			end
 		end
 		v2675=nil
+		v2688=nil
 		return
 	end
-	v2675={v2681.Brightness,v2681.ShadowSoftness,v2681.EnvironmentDiffuseScale,v2681.EnvironmentSpecularScale,v2681.Ambient,v2681.OutdoorAmbient,v2681.GlobalShadows}
+	v2675={v2681.Brightness,v2681.ShadowSoftness,v2681.EnvironmentDiffuseScale,v2681.EnvironmentSpecularScale,v2681.Ambient,v2681.OutdoorAmbient,v2681.GlobalShadows,v2681.ClockTime}
+	v2688={}
+	for _,v2682 in ipairs(v2681:GetChildren()) do
+		if v2682.ClassName=='SunRaysEffect' then
+			v2688[#v2688+1]={v2682.Enabled,v2682.Intensity,v2682.Spread}
+		end
+	end
 	v2676=v4.RenderStepped:Connect(function()
 		if v6 then return end
 		pcall(function()v2681.Brightness=4 end)
@@ -1407,6 +1428,27 @@ local v2677,v2678,v2679=CreateToggle(v2674(),'Mini Shader',nil,function(v2680)
 		pcall(function()v2681.Ambient=Color3.fromRGB(64,72,79) end)
 		pcall(function()v2681.OutdoorAmbient=Color3.fromRGB(64,72,79) end)
 		pcall(function()v2681.GlobalShadows=true end)
+		pcall(function()v2681.ClockTime=6.25 end)
+		local v2682={}
+		for _,v2683 in ipairs(v2681:GetChildren()) do
+			if v2683.ClassName=='SunRaysEffect' then v2682[#v2682+1]=v2683 end
+		end
+		local v2684=#v2682
+		local v2685=nil
+		if v2684<1 then
+			v2685=Instance.new('SunRaysEffect',v2681)
+		else
+			v2685=v2682[math.random(1,v2684)]
+			for v2686=1,v2684 do
+				local v2687=v2682[v2686]
+				if v2687~=v2685 then pcall(function()v2687:Destroy()end) end
+			end
+		end
+		if v2685 and v2685.Parent then
+			pcall(function()v2685.Enabled=true end)
+			pcall(function()v2685.Intensity=.5 end)
+			pcall(function()v2685.Spread=2 end)
+		end
 	end)
 	v5[#v5+1]=v2676
 end)
