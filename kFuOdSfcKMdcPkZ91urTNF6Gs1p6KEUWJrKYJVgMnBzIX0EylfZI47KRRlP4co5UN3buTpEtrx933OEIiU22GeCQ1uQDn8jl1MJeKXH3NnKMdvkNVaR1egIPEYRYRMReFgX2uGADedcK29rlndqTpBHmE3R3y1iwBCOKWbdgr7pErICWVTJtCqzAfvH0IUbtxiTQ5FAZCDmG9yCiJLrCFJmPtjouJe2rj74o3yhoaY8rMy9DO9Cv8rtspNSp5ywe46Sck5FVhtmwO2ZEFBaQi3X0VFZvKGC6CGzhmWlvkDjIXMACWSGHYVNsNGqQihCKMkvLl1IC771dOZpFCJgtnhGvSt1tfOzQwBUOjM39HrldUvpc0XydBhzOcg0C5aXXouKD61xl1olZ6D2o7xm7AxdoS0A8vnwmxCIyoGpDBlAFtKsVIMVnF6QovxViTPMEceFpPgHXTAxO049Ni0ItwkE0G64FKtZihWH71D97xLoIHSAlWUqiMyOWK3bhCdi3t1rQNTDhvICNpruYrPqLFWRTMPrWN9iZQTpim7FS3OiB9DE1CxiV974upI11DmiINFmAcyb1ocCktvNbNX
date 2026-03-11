@@ -1393,7 +1393,6 @@ local v2677,v2678,v2679=CreateToggle(v2674(),'Mini Shader',nil,function(v2680)
 			pcall(function()v2681.Ambient=v2675[5]end)
 			pcall(function()v2681.OutdoorAmbient=v2675[6]end)
 			pcall(function()v2681.GlobalShadows=v2675[7]end)
-			pcall(function()v2681.ClockTime=v2675[8]end)
 		end
 		local v2682={}
 		for _,v2683 in ipairs(v2681:GetChildren()) do
@@ -1412,7 +1411,7 @@ local v2677,v2678,v2679=CreateToggle(v2674(),'Mini Shader',nil,function(v2680)
 		v2688=nil
 		return
 	end
-	v2675={v2681.Brightness,v2681.ShadowSoftness,v2681.EnvironmentDiffuseScale,v2681.EnvironmentSpecularScale,v2681.Ambient,v2681.OutdoorAmbient,v2681.GlobalShadows,v2681.ClockTime}
+	v2675={v2681.Brightness,v2681.ShadowSoftness,v2681.EnvironmentDiffuseScale,v2681.EnvironmentSpecularScale,v2681.Ambient,v2681.OutdoorAmbient,v2681.GlobalShadows}
 	v2688={}
 	for _,v2682 in ipairs(v2681:GetChildren()) do
 		if v2682.ClassName=='SunRaysEffect' then
@@ -1428,7 +1427,6 @@ local v2677,v2678,v2679=CreateToggle(v2674(),'Mini Shader',nil,function(v2680)
 		pcall(function()v2681.Ambient=Color3.fromRGB(64,72,79) end)
 		pcall(function()v2681.OutdoorAmbient=Color3.fromRGB(64,72,79) end)
 		pcall(function()v2681.GlobalShadows=true end)
-		pcall(function()v2681.ClockTime=6.25 end)
 		local v2682={}
 		for _,v2683 in ipairs(v2681:GetChildren()) do
 			if v2683.ClassName=='SunRaysEffect' then v2682[#v2682+1]=v2683 end
@@ -2917,6 +2915,11 @@ local function v335()
 	CreateButton(v339(),'Teleport',function()
 		if v6 then return end
 		local v343=v74
+		if not v343 or not v343.Parent then
+			local v344a=v7.Character
+			if v344a then v343=v702(v344a) end
+			if not v343 then v343=v703() end
+		end
 		if not v343 or not v343.Parent then return end
 		local v344=v343.CFrame
 		v343.CFrame=CFrame.new(v340,v341,v342)*(v344-v344.p)
