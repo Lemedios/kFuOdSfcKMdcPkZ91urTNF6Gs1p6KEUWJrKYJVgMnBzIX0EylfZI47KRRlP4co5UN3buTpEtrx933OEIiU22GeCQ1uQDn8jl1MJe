@@ -605,6 +605,21 @@ v5[#v5+1]=v2.InputEnded:Connect(function(v88,v89)
 	end
 end)
 
+local function v704(v91)
+	local v92=(v83 and 1 or 0)-(v81 and 1 or 0)
+	local v93=(v80 and 1 or 0)-(v82 and 1 or 0)
+	if v92==0 and v93==0 then return Vector3.new() end
+	local v94=v91.LookVector
+	local v95=Vector3.new(v94.X,0,v94.Z)
+	if v95.Magnitude<.001 then v95=Vector3.new(0,0,-1) else v95=v95.Unit end
+	local v96=v91.RightVector
+	local v97=Vector3.new(v96.X,0,v96.Z)
+	if v97.Magnitude<.001 then v97=v95:Cross(Vector3.new(0,1,0)) else v97=v97.Unit end
+	local v98=v95*v93+v97*v92
+	if v98.Magnitude>.001 then return v98.Unit end
+	return Vector3.new()
+end
+
 v10=Instance.new('ScreenGui',v8)
 v10.ResetOnSpawn=false
 v10.IgnoreGuiInset=true
@@ -802,6 +817,8 @@ local v117,v118,v119=CreateToggle(v116(),'Fly',function(v120)
 	if v125.Magnitude>.001 then
 		local v127=v124:VectorToObjectSpace(v125)
 		v126=v126+v124.LookVector*(-v127.Z)+v124.RightVector*(v127.X)
+	else
+		v126=v126+v704(v124)
 	end
 	if v79 then v126=v126+v124.UpVector end
 	if v78 then v126=v126-v124.UpVector end
@@ -846,6 +863,8 @@ local v128,v129,v132=CreateToggle(v116(),'Hover',function(v131)
 	if v142a.Magnitude>.001 then
 		local v144a=v136a:VectorToObjectSpace(v142a)
 		v143a=v143a+v138a*(-v144a.Z)+v141a*(v144a.X)
+	else
+		v143a=v143a+v704(v136a)
 	end
 	local v145a=(v79 and 1 or 0)-(v78 and 1 or 0)
 	if v143a.Magnitude>.001 then v143a=v143a.Unit end
