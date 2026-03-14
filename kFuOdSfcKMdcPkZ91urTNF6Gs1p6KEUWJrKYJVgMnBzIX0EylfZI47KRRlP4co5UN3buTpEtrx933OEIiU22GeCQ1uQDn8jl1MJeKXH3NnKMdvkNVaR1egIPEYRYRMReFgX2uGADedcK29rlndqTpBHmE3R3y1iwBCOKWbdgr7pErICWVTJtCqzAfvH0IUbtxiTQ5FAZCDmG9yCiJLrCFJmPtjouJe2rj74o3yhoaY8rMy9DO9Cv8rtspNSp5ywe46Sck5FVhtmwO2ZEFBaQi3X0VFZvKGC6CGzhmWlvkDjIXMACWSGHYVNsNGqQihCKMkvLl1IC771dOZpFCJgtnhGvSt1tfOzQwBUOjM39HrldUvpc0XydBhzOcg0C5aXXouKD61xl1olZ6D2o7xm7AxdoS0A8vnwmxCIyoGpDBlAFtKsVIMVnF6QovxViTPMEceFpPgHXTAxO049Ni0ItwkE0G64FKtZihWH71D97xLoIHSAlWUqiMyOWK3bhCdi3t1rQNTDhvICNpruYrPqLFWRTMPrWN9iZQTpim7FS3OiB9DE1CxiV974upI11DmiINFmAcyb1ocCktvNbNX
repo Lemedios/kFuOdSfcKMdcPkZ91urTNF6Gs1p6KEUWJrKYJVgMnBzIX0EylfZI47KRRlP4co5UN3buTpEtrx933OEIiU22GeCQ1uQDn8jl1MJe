@@ -623,6 +623,15 @@ local function v704(v91)
 	return v95*v93+v97*v92
 end
 
+local function v709(v91)
+	local v92=(v83 and 1 or 0)-(v81 and 1 or 0)
+	local v93=(v80 and 1 or 0)-(v82 and 1 or 0)
+	if v92==0 and v93==0 then return Vector3.new() end
+	local v94=v91.LookVector*v93+v91.RightVector*v92
+	if v94.Magnitude>.001 then return v94.Unit end
+	return Vector3.new()
+end
+
 v10=Instance.new('ScreenGui',v8)
 v10.ResetOnSpawn=false
 v10.IgnoreGuiInset=true
@@ -818,7 +827,7 @@ local v117,v118,v119=CreateToggle(v116(),'Fly',function(v120)
 	local v125=v73 and v73.MoveDirection or Vector3.new()
 	local v126=Vector3.new()
 	if v708() or v125.Magnitude<=.001 then
-		v126=v126+v704(v124)
+		v126=v126+v709(v124)
 	else
 		local v127=v124:VectorToObjectSpace(v125)
 		v126=v126+v124.LookVector*(-v127.Z)+v124.RightVector*(v127.X)
